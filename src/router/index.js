@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import TableEdit from '../views/TableEdit.vue'
 import store from '../store'
 
 const routes = [
@@ -15,6 +16,14 @@ const routes = [
     path: '/home',
     name: 'home',
     component: HomeView,
+    meta:{
+      requireAuth: true
+    }
+  },
+  {
+    path: '/table-edit/',
+    name: 'TableEdit',
+    component: TableEdit,
     meta:{
       requireAuth: true
     }
