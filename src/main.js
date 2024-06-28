@@ -3,6 +3,8 @@ import App from './App.vue'
 // import './registerServiceWorker'
 import router from './router'
 import axios from 'axios'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import store from './store'
 import cookie from 'js-cookie';
 
@@ -28,6 +30,7 @@ if(cookie.getJSON('userdata') !== undefined){
 }
 const app = createApp(App)
 app.config.globalProperties.$axios = { ...axiosInstance }
+app.use(VueSweetalert2);
 app.use(store)
 app.use(router)
 app.mount('#app')

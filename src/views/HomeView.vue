@@ -34,7 +34,8 @@
           <td>{{ item.category }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.price }}</td>
-          <td><button @click="edited(item)">edit</button></td>
+          <td><button @click="edited(item)">edit</button>&nbsp;<button @click="deletedProduct(item.id)">deleted</button>
+          </td>
         </tr>
       </tbody>
 
@@ -67,11 +68,11 @@ export default {
   },
   methods: {
     getListdataProduct() {
-      this.$axios.get('products?limit=20&offset=5')
+      this.$axios.get('products?limit=100&offset=0')
         .then(res => {
           let productdata = res.data
           console.log('ini data asli ', productdata)
-          let img = productdata[0].images[0]
+          let img = productdata[0]?.images[0]
           console.log('ini image', img)
           productdata.forEach(item => {
             // console.log(item);
@@ -90,8 +91,41 @@ export default {
           console.log('data olahan', this.dataProduct)
         });
     },
-    edited(item){
-      this.$router.push('/table-edit/?categoryId='+item.categoryId+'&id='+item.id)
+    edited(item) {
+      this.$router.push('/table-edit/?categoryId=' + item.categoryId + '&id=' + item.id)
+    },
+    deletedProduct(val) {
+      this.$swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+           this.$axios.delete('products/'+val)
+            .then(res => {
+              if(res){
+                this.$swal.fire({
+                  title: "Deleted!",
+                  text: "Your file has been deleted.",
+                  icon: "success"
+                });
+                this.dataProduct = [];
+                this.getListdataProduct();
+                // window.location.reload()
+              }
+            })
+         
+        }
+      });
+
+      // this.$axios.get('products'+val)
+      // .then(res => {
+
+      // })
     }
   },
 

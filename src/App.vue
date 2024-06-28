@@ -1,16 +1,23 @@
 <template>
-  <nav v-if="this.$store.state.userdate !== null">
+  <nav v-if="this.$store.state.userdata !== null">
     <router-link to="/home">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">About</router-link> |
+    <submit  type="buton" style="cursor: pointer;"  @click.prevent="logout()"> &nbsp;<strong>logout</strong></submit>
   </nav>
   <router-view />
 </template>
 
 <script>
+import cookie from 'js-cookie';
 export default {
    
   methods:{
-
+    logout(){
+      cookie.remove('userdata')
+      this.$store.state.userdata = null
+      this.$router.push('/')
+      window.location.reload()
+    }
   },
   mounted() {
     
